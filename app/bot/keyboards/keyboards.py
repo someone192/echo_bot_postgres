@@ -9,7 +9,7 @@ def get_lang_settings_kb(i18n: dict, locales: list[str], checked: str) -> Inline
             buttons.append(
                 [
                     InlineKeyboardButton(
-                        text=f"🔘 {i18.get(locale)}", callback_data=locale
+                        text=f"🔘 {i18n.get(locale)}", callback_data=locale
                     )
                 ]
             )
