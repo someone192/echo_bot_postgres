@@ -14,7 +14,7 @@ from app.infrastructure.database.db import (
 )
 from psycopg import AsyncConnection
 
-logger = logging.get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 admin_router = Router()
 
