@@ -54,6 +54,8 @@ async def process_start_command(
             user_id=message.from_user.id,
         )
 
+    state: FSMContext = data.get('state')
+
     if await state.get_state() == LangSG.lang:
         data = await state.get_data()
         with suppress(TelegramBadRequest):

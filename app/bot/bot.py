@@ -10,7 +10,7 @@ from app.bot.handlers.others import others_router
 from app.bot.handlers.settings import settings_router
 from app.bot.handlers.user import user_router
 from app.bot.i18n.translator import get_translations
-from app.bot.middlewares.database import DataBaseMiddleware
+from app.bot.middlewares.database import DatabaseMiddleware
 from app.bot.middlewares.i18n import TranslatorMiddleware
 from app.bot.middlewares.lang_settings import LangSettingsMiddleware
 from app.bot.middlewares.shadow_ban import ShadowBanMiddleware
@@ -55,7 +55,7 @@ async def main(config: Config) -> None:
     dp.include_routers(settings_router, admin_router, user_router, others_router)
 
     logger.info('Including middlewares...')
-    dp.update.middleware(DataBaseMiddleware())
+    dp.update.middleware(DatabaseMiddleware())
     dp.update.middleware(ShadowBanMiddleware())
     dp.update.middleware(ActivityCounterMiddleware())
     dp.update.middleware(LangSettingsMiddleware())
@@ -63,7 +63,8 @@ async def main(config: Config) -> None:
 
     try:
         await dp.start_polling(
-            bot, db_pool=db_pool,
+            bot, 
+            db_pool=db_pool,
             translations=translations,
             locales=locales,
             admin_ids=config.bot.admin_ids
