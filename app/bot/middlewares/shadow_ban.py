@@ -15,6 +15,7 @@ class ShadowBanMiddleware(BaseMiddleware):
         event: Update,
         data: dict[str, Any]
     ) -> Any:
+        logger.debug('shadow_ban_middleware')
         user: User = data.get('event_from_user')
 
         if user is None:

@@ -14,6 +14,7 @@ class DatabaseMiddleware(BaseMiddleware):
             event: Update,
             data: dict[str, Any]
     ) -> Any:
+        logger.debug('database_middleware')
         db_pool: AsyncConnectionPool = data.get('db_pool')
 
         if db_pool is None:

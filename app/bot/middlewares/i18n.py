@@ -16,6 +16,7 @@ class TranslatorMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: dict[str, Any]
     ) -> Any:
+        logger.debug('translator_middleware')
         user: User = data.get("event_from_user")
         logger.debug('user is ready')
 
@@ -51,7 +52,7 @@ class TranslatorMiddleware(BaseMiddleware):
 
         if i18n is None:
             data['i18n'] = translations[translations['default']]
-            logger.debug('i18n is None')
+            logger.debug(data['i18n'])
         else:
             data['i18n'] = i18n
             logger.debug('data i18n is ready')

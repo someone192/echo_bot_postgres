@@ -57,6 +57,7 @@ async def process_lang_command(
     state: FSMContext,
     locales: list[str],
 ):
+    logger.debug('lang_handler')
     await state.set_state(LangSG.lang)
     user_lang = await get_user_lang(conn, user_id=message.from_user.id)
 
@@ -108,10 +109,12 @@ async def process_cancel_click(
 async def process_lang_click(
     callback: CallbackQuery, i18n: dict[str, str], locales: list[str]
 ):
+    logger.debug('radio-button')
     try:
         await callback.message.edit_text(
             text=i18n.get("/lang"),
             reply_markup=get_lang_settings_kb(i18n=i18n, locales=locales, checked=callback.data),
         )
+        logger.debug('radio-button successfull')
     except TelegramBadRequest:
         await callback.answer()
