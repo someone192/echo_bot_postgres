@@ -21,12 +21,12 @@ admin_router = Router()
 admin_router.message.filter(UserRoleFilter(UserRole.ADMIN))
 
 #Handler for command "help" from user with role 'UserRole.ADMIN'
-@admin_router.message(Command('help'))
+@admin_router.message(Command(commands='help'))
 async def process_admin_help_command(message: Message, i18n: dict):
     await message.answer(text=i18n.get('/help_admin'))
 
 #Handler for command "statistics" from user with role 'UserRole.ADMIN'
-@admin_router.message(Command('/statistics'))
+@admin_router.message(Command(commands='statistics'))
 async def process_admin_statistics_command(message: Message, conn: AsyncConnection, i18n: dict[str, str]):
     statistics = await get_statistics(conn)
     await message.answer(
@@ -39,7 +39,7 @@ async def process_admin_statistics_command(message: Message, conn: AsyncConnecti
     )
 
 #Handler for command "ban" from user with role 'UserRole.ADMIN'
-@admin_router.message(Command('ban'))
+@admin_router.message(Command(commands='ban'))
 async def process_admin_ban_command(
     message: Message,
     command: CommandObject,
@@ -74,7 +74,7 @@ async def process_admin_ban_command(
         await message.reply(text=i18n.get('successfully_banned'))
 
 #Handler for commmand "unban" from user with role "UserRole.ADMIN"
-@admin_router.message(Command('unban'))
+@admin_router.message(Command(commands='unban'))
 async def process_admin_unban_command(
     message: Message,
     command: CommandObject,

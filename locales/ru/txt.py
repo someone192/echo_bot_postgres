@@ -43,7 +43,7 @@ RU: dict[str, str] = {
     "already_banned": "❗ Пользователь и так уже забанен!",
     "successfully_banned": "⚠️ Пользователь успешно забанен!",
     "no_user": "❗ Нет такого пользователя в базе данных!",
-    "empty_unban_answer": "❗ Пожалуйста, укажите ID пользователя или @username.",
+    "empty_unban_answer": "Пожалуйста, укажите ID пользователя или @username.",
     "incorrect_unban_arg": "⚠️ <b>Неверный формат.</b>\n\nИспользуйте: /unban <code>ID</code> "
                            "или /unban <code>@username</code>",
     "not_banned": "❗ Пользователь и так не был забанен!",

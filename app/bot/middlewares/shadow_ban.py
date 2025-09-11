@@ -27,7 +27,7 @@ class ShadowBanMiddleware(BaseMiddleware):
         
         user_banned_status = get_user_banned_status_by_id(conn, user_id=user.id)
 
-        if user_banned_status:
+        if user_banned_status is True:
             logger.warning("Shadow-banned user tried to interact: %d", user.id)
             
             if event.callback_query:

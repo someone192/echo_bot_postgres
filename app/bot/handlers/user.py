@@ -28,6 +28,7 @@ async def process_start_command(
     conn: AsyncConnection,
     bot: Bot,
     i18n: dict[str, str],
+    state: FSMContext,
     admin_ids: list[int],
     translations: dict
     ):
@@ -47,14 +48,12 @@ async def process_start_command(
             role=user_role
         )
     else:
-        user_role = UserRole[user_row[4]]
+        user_role = UserRole(user_row[4])
         await change_user_alive_status(
             conn,
             is_alive=True,
             user_id=message.from_user.id,
         )
-
-    state: FSMContext = data.get('state')
 
     if await state.get_state() == LangSG.lang:
         data = await state.get_data()
@@ -63,7 +62,7 @@ async def process_start_command(
             if msg_id:
                 await bot.edit_message_reply_markup(chat_id=message.from_user.id, message_id=msg_id)
             
-        user_lang = await get_user_lang(conn, message.from_user.id)
+        user_lang = await get_user_lang(conn, user_id = message.from_user.id)
         i18n = translations.get(user_lang)
 
     await bot.set_my_commands(
