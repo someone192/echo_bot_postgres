@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class ShadowBanMiddleware(BaseMiddleware):
     async def __call__(
         self,
-        handler: Callable[[TelegramObject, dict[str, Any], Awaitable[Any]]],
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
         event: Update,
         data: dict[str, Any]
     ) -> Any:
@@ -25,10 +25,11 @@ class ShadowBanMiddleware(BaseMiddleware):
             logger.error("Database connection not found in middleware data.")
             raise RuntimeError("Missing database connection for shadow ban check")
         
-        user_banned_status = get_user_banned_status_by_id(user_id=user.id)
+        user_banned_status = get_user_banned_status_by_id(conn, user_id=user.id)
 
         if user_banned_status:
             logger.warning("Shadow-banned user tried to interact: %d", user.id)
+            
             if event.callback_query:
                 await event.callback_query.answer()
             return

@@ -78,4 +78,5 @@ services:
 
 networks:
   app_network:
+    external: true
     name: app_network

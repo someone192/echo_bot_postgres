@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class DatabaseMiddleware(BaseMiddleware):
     async def __call__(
             self,
-            handler: Callable[[Update[dict[str, Any]]], Awaitable[Any]],
+            handler: Callable[[Update, dict[str, Any]], Awaitable[Any]],
             event: Update,
             data: dict[str, Any]
     ) -> Any:
@@ -20,7 +20,7 @@ class DatabaseMiddleware(BaseMiddleware):
             logger.error("Database pool is not provided in middleware data.")
             raise RuntimeError("Missing db_pool in middleware context.")
         
-        async with db_pool.connection as connection:
+        async with db_pool.connection() as connection:
             try:
                 async with connection.transaction():
                     data['conn'] = connection
