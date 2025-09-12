@@ -93,10 +93,12 @@ async def process_save_click(
 
 
 # Этот хэнлер будет срабатывать на нажатие кнопки "Отмена" в режиме настроек языка
-@settings_router.callback_query(F.data == "cancel_lang_button_data")
+@settings_router.callback_query(#F.data == "cancel_lang_button_data")
+)
 async def process_cancel_click(
     callback: CallbackQuery, conn: AsyncConnection, i18n: dict[str, str], state: FSMContext
 ):
+    logger.debug('cancel_btn_handler')
     user_lang = await get_user_lang(conn, user_id=callback.from_user.id)
     await callback.message.edit_text(text=i18n.get("lang_cancelled").format(i18n.get(user_lang)))
     await state.update_data(lang_settings_msg_id=None, user_lang=None)

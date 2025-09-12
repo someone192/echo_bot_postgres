@@ -26,7 +26,7 @@ class ShadowBanMiddleware(BaseMiddleware):
             logger.error("Database connection not found in middleware data.")
             raise RuntimeError("Missing database connection for shadow ban check")
         
-        user_banned_status = get_user_banned_status_by_id(conn, user_id=user.id)
+        user_banned_status = await get_user_banned_status_by_id(conn, user_id=user.id)
 
         if user_banned_status is True:
             logger.warning("Shadow-banned user tried to interact: %d", user.id)
