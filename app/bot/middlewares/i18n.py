@@ -14,7 +14,7 @@ class TranslatorMiddleware(BaseMiddleware):
         self,
         handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
         event: TelegramObject,
-        data: dict[str, Any]
+        data: dict[str, Any],
     ) -> Any:
         logger.debug('translator_middleware')
         user: User = data.get("event_from_user")
@@ -47,12 +47,12 @@ class TranslatorMiddleware(BaseMiddleware):
 
         translations: dict = data.get('translations')
         logger.debug('translations are ready')
-        i18n: dict = translations.get('user_lang')
+        i18n: dict = translations.get(user_lang)
         logger.debug('i18n is ready')
 
         if i18n is None:
             data['i18n'] = translations[translations['default']]
-            logger.debug(data['i18n'])
+            logger.debug('i18n')
         else:
             data['i18n'] = i18n
             logger.debug('data i18n is ready')

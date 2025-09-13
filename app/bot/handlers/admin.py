@@ -47,18 +47,26 @@ async def process_admin_ban_command(
     i18n: dict[str, str]
 )-> None:
     args = command.args
+    logger.debug(args)
 
-    if not args:
-        await message.reply(i18n.get('empty_bad_answer'))
+    if args is None:
+        logger.debug('args None 1')
+        await message.reply(i18n.get('empty_ban_answer'))
+        logger.debug('args None 2')
         return
     
+    logger.debug('arg_user 1')
     arg_user = args.split()[0].strip()
+    logger.debug('arg_user 2')
 
     if arg_user.isdigit():
+        logger.debug('banned_stat_id')
         banned_status = await get_user_banned_status_by_id(conn, user_id=int(arg_user))
     elif arg_user.startswith('@'):
-        banned_status = await get_user_banned_status_by_username(conn, user_id=arg_user[1:])
+        logger.debug('banned_stat_usn')
+        banned_status = await get_user_banned_status_by_username(conn, username=arg_user[1:])
     else:
+        logger.debug('incorrect ban args')
         await message.answer(text=i18n.get('incorrect_ban_arg'))
         return
     
@@ -87,11 +95,11 @@ async def process_admin_unban_command(
 
     if not args:
         logger.debug('if not args')
-        logger.debug(i18n.get('empty_bad_answer'))
-        await message.reply(i18n.get('empty_bad_answer'))
-        logger.debug('unban_bad_answer')
+        logger.debug(i18n.get('empty_unban_answer'))
+        await message.reply(i18n.get('empty_unban_answer'))
+        logger.debug('unban_empty_answer')
         return
-    logger.debug('correct_ban_args')
+    logger.debug('correct_unban_args')
     
     arg_user = args.split()[0].strip()
     logger.debug('arg_user')

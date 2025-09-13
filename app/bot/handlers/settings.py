@@ -74,6 +74,7 @@ async def process_lang_command(
 async def process_save_click(
     callback: CallbackQuery, bot: Bot, conn: AsyncConnection, i18n: dict[str, str], state: FSMContext
 ):
+    logger.debug('save_button')
     data = await state.get_data()
     await update_user_lang(
         conn, language=data.get("user_lang"), user_id=callback.from_user.id
@@ -93,8 +94,7 @@ async def process_save_click(
 
 
 # Этот хэнлер будет срабатывать на нажатие кнопки "Отмена" в режиме настроек языка
-@settings_router.callback_query(#F.data == "cancel_lang_button_data")
-)
+@settings_router.callback_query(F.data == "cancel_lang_button_data")
 async def process_cancel_click(
     callback: CallbackQuery, conn: AsyncConnection, i18n: dict[str, str], state: FSMContext
 ):
@@ -109,7 +109,8 @@ async def process_cancel_click(
 # в режиме настроек языка интерфейса
 @settings_router.callback_query(LocaleFilter())
 async def process_lang_click(
-    callback: CallbackQuery, i18n: dict[str, str], locales: list[str]
+    callback: CallbackQuery, i18n: dict[str, str], locales: list[str],
+    state: FSMContext,
 ):
     logger.debug('radio-button')
     try:
